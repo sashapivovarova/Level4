@@ -7,34 +7,40 @@
 
 import SwiftUI
 
-class Taxi {
-    init(driver: String) {
-        self.driver = driver
-        self.driver = addDot(name: driver)
-    }
-    private var driver: String
-    
-    private func addDot(name: String) -> String {
-        return name + "."
-    }
-    
-    func getDriverName() -> String {
-        return driver
-    }
+enum numberError: Error {
+    case dividedByZero
 }
 
 struct ContentView: View {
     
-    var myTaxi = Taxi(driver: "Sasha")
+    @State var number: Int = 0
+    @State var inputNumber: String = ""
     
     var body: some View {
         VStack {
-            Text("The driver is ")
-            Button {
-                print(myTaxi.getDriverName())
-            } label: {
-                Text("Change")
+            HStack {
+                Text("10 Divide with ")
+                TextField("X",
+                          text: $inputNumber)
             }
+            Text(number.description)
+            Button {
+                do {
+                    number = try divideHundred(by: inputNumber)
+                } catch {
+                    print("Error : \(error)")
+                }
+            } label: {
+                Text("Divide!")
+            }
+        }
+    }
+    
+    private func divideHundred(by inputNumber: String) throws -> Int {
+        if inputNumber == "0" {
+            throw numberError.dividedByZero
+        } else {
+            return 100 / (Int(inputNumber) ?? 0)
         }
     }
 }
