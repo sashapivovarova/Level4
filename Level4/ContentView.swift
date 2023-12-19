@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-enum NetworkError: Error {
-    case notFound
+enum NetworkError: String, Error {
     case forbidden
+    case notFound = "Page not found"
     case internalError
     case timeout
 }
@@ -33,7 +33,7 @@ struct ContentView: View {
                 } catch NetworkError.forbidden {
                     print("Unauthorized")
                 } catch NetworkError.notFound {
-                    print("Page not found")
+                    print(NetworkError.notFound.rawValue)
                 } catch NetworkError.internalError {
                     print("Server has something wrong")
                 } catch NetworkError.timeout {
