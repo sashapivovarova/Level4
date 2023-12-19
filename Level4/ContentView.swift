@@ -7,40 +7,57 @@
 
 import SwiftUI
 
-enum numberError: Error {
-    case dividedByZero
+enum NetworkError: Error {
+    case notFound
+    case forbidden
+    case internalError
+    case timeout
 }
 
 struct ContentView: View {
     
-    @State var number: Int = 0
+    @State var response: String = "Unknown"
     @State var inputNumber: String = ""
     
     var body: some View {
         VStack {
             HStack {
-                Text("10 Divide with ")
-                TextField("X",
+                Text("Server Response")
+                TextField(" ",
                           text: $inputNumber)
             }
-            Text(number.description)
+            Text(response)
             Button {
                 do {
-                    number = try divideHundred(by: inputNumber)
+                    response = try requestData(by: inputNumber)
+                } catch NetworkError.forbidden {
+                    print("Unauthorized")
+                } catch NetworkError.notFound {
+                    print("Page not found")
+                } catch NetworkError.internalError {
+                    print("Server has something wrong")
+                } catch NetworkError.timeout {
+                    print("Try again")
                 } catch {
-                    print("Error : \(error)")
+                    print("None")
                 }
             } label: {
-                Text("Divide!")
+                Text("Check")
             }
         }
     }
     
-    private func divideHundred(by inputNumber: String) throws -> Int {
-        if inputNumber == "0" {
-            throw numberError.dividedByZero
+    private func requestData(by response: String) throws -> String {
+        if response == "200" {
+            return "OK"
+        } else if response == "403" {
+            throw NetworkError.forbidden
+        } else if response == "404" {
+            throw NetworkError.notFound
+        } else if response == "501" {
+            throw NetworkError.internalError
         } else {
-            return 100 / (Int(inputNumber) ?? 0)
+            throw NetworkError.timeout
         }
     }
 }
