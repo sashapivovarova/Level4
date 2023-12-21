@@ -7,57 +7,42 @@
 
 import SwiftUI
 
-enum NetworkError: String, Error {
-    case forbidden
-    case notFound = "Page not found"
-    case internalError
-    case timeout
-}
-
 struct ContentView: View {
-    
-    @State var response: String = "Unknown"
-    @State var inputNumber: String = ""
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Server Response")
-                TextField(" ",
-                          text: $inputNumber)
+            MyCustomButton(backgroundColor: .pink,
+                           buttonTitle: "Click") {
+                print("Hi!")
             }
-            Text(response)
-            Button {
-                do {
-                    response = try requestData(by: inputNumber)
-                } catch NetworkError.forbidden {
-                    print("Unauthorized")
-                } catch NetworkError.notFound {
-                    print(NetworkError.notFound.rawValue)
-                } catch NetworkError.internalError {
-                    print("Server has something wrong")
-                } catch NetworkError.timeout {
-                    print("Try again")
-                } catch {
-                    print("None")
-                }
-            } label: {
-                Text("Check")
-            }
+            MyCustomButton(testName: "Click Me")
         }
     }
+}
+
+struct MyCustomButton: View {
+    var backgroundColor: Color
+    var buttonTitle: String
+    var action: ()->()
     
-    private func requestData(by response: String) throws -> String {
-        if response == "200" {
-            return "OK"
-        } else if response == "403" {
-            throw NetworkError.forbidden
-        } else if response == "404" {
-            throw NetworkError.notFound
-        } else if response == "501" {
-            throw NetworkError.internalError
-        } else {
-            throw NetworkError.timeout
+    init(backgroundColor: Color, buttonTitle: String, action: @escaping () -> Void) {
+        self.backgroundColor = backgroundColor
+        self.buttonTitle = buttonTitle
+        self.action = action
+    }
+    
+    var body: some View {
+        Button(buttonTitle) {
+            action()
+        }
+        .background(backgroundColor)
+    }
+}
+
+extension MyCustomButton {
+    init(testName: String) {
+        self.init(backgroundColor: .green, buttonTitle: "Click Me") {
+            
         }
     }
 }
