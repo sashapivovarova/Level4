@@ -7,42 +7,31 @@
 
 import SwiftUI
 
-struct ContentView: View {
+class Task {
+    let name: String
+    let level: String
     
+    init(name: String, level: String) {
+        self.name = name
+        self.level = level
+        print("Created!")
+    }
+    
+    deinit {
+        print("destroyed!")
+    }
+}
+
+struct ContentView: View {
+        
     var body: some View {
         VStack {
-            MyCustomButton(backgroundColor: .pink,
-                           buttonTitle: "Click") {
-                print("Hi!")
+            Button {
+                var homework: Task? = Task(name: "homework", level: "hard")
+                homework = nil
+            }label: {
+                Text("Click!")
             }
-            MyCustomButton(testName: "Click Me")
-        }
-    }
-}
-
-struct MyCustomButton: View {
-    var backgroundColor: Color
-    var buttonTitle: String
-    var action: ()->()
-    
-    init(backgroundColor: Color, buttonTitle: String, action: @escaping () -> Void) {
-        self.backgroundColor = backgroundColor
-        self.buttonTitle = buttonTitle
-        self.action = action
-    }
-    
-    var body: some View {
-        Button(buttonTitle) {
-            action()
-        }
-        .background(backgroundColor)
-    }
-}
-
-extension MyCustomButton {
-    init(testName: String) {
-        self.init(backgroundColor: .green, buttonTitle: "Click Me") {
-            
         }
     }
 }
