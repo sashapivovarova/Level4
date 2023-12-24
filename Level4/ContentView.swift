@@ -7,18 +7,33 @@
 
 import SwiftUI
 
-class Task {
+class goodStudent {
     let name: String
-    let level: String
+    let grade: Grade?
     
-    init(name: String, level: String) {
+    init(name: String, grade: Grade? = nil) {
+        print("goodStudent is started")
         self.name = name
-        self.level = level
-        print("Created!")
+        self.grade = grade
     }
     
     deinit {
-        print("destroyed!")
+        print("goodStudent is done")
+    }
+}
+
+class Grade {
+    let title: String
+    var topStudent: goodStudent?
+    
+    init(title: String, topStudent: goodStudent? = nil) {
+        print("Grade is stared")
+        self.title = title
+        self.topStudent = topStudent
+    }
+    
+    deinit {
+        print("Grade is done")
     }
 }
 
@@ -27,18 +42,14 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button {
-                print("ARC Count : \(CFGetRetainCount(Task(name: "homework", level: "hard")))")
-                var homework: Task? = Task(name: "homework", level: "hard")
-                print("ARC Count : \(CFGetRetainCount(homework))")
-                var homework2 = homework
-                print("ARC Count : \(CFGetRetainCount(homework))")
-                homework = nil
-                if homework != nil {
-                    print("ARC Count : \(CFGetRetainCount(homework))")
-                } else {
-                    print("ARC Count : 0")
-                }
-            }label: {
+                var sasha: goodStudent? = goodStudent(name: "Sasha")
+                var level: Grade? = Grade(title: "Math")
+                print("Sasha ARC : \(CFGetRetainCount(sasha))")
+                print("grade ARC : \(CFGetRetainCount(level))")
+                
+                sasha?.grade = good
+                level?.topStudent = sasha
+            } label: {
                 Text("Click!")
             }
         }
