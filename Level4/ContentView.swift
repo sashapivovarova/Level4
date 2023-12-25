@@ -9,7 +9,7 @@ import SwiftUI
 
 class goodStudent {
     let name: String
-    let grade: Grade?
+    weak var grade: Grade?
     
     init(name: String, grade: Grade? = nil) {
         print("goodStudent is started")
@@ -24,7 +24,7 @@ class goodStudent {
 
 class Grade {
     let title: String
-    var topStudent: goodStudent?
+    weak var topStudent: goodStudent?
     
     init(title: String, topStudent: goodStudent? = nil) {
         print("Grade is stared")
@@ -44,11 +44,14 @@ struct ContentView: View {
             Button {
                 var sasha: goodStudent? = goodStudent(name: "Sasha")
                 var level: Grade? = Grade(title: "Math")
-                print("Sasha ARC : \(CFGetRetainCount(sasha))")
+                print("sasha ARC : \(CFGetRetainCount(sasha))")
                 print("grade ARC : \(CFGetRetainCount(level))")
                 
-                sasha?.grade = good
+                sasha?.grade = level
                 level?.topStudent = sasha
+                
+                print("sasha ARC : \(CFGetRetainCount(sasha))")
+                print("grade ARC : \(CFGetRetainCount(level))")
             } label: {
                 Text("Click!")
             }
