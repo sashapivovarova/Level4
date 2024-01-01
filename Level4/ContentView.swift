@@ -7,33 +7,21 @@
 
 import SwiftUI
 
-class goodStudent {
-    let name: String
-    weak var grade: Grade?
+class Boom {
+    let power: Int
+    var action: () -> ()
     
-    init(name: String, grade: Grade? = nil) {
-        print("goodStudent is started")
-        self.name = name
-        self.grade = grade
+    func explode(closure: @escaping () -> ()) {
+        action = closure
     }
     
-    deinit {
-        print("goodStudent is done")
-    }
-}
-
-class Grade {
-    let title: String
-    weak var topStudent: goodStudent?
-    
-    init(title: String, topStudent: goodStudent? = nil) {
-        print("Grade is stared")
-        self.title = title
-        self.topStudent = topStudent
+    func act() {
+        action()
     }
     
-    deinit {
-        print("Grade is done")
+    init(power: Int, action: @escaping () -> Void) {
+        self.power = power
+        self.action = action
     }
 }
 
@@ -42,18 +30,13 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Button {
-                var sasha: goodStudent? = goodStudent(name: "Sasha")
-                var level: Grade? = Grade(title: "Math")
-                print("sasha ARC : \(CFGetRetainCount(sasha))")
-                print("grade ARC : \(CFGetRetainCount(level))")
-                
-                sasha?.grade = level
-                level?.topStudent = sasha
-                
-                print("sasha ARC : \(CFGetRetainCount(sasha))")
-                print("grade ARC : \(CFGetRetainCount(level))")
+                let myBoom = Boom(power: 3, action: {})
+                myBoom.explode {
+                    print("Boooooom!")
+                }
+                myBoom.act()
             } label: {
-                Text("Click!")
+                Text("Boom!")
             }
         }
     }
