@@ -7,36 +7,58 @@
 
 import SwiftUI
 
-class Boom {
-    let power: Int
-    var action: () -> ()
+protocol Coin: Hashable {
+    var name: String { get }
+    var value: Int { get set }
     
-    func explode(closure: @escaping () -> ()) {
-        action = closure
+    func makeSound()
+}
+
+struct Yen: Coin {
+    func makeSound() {
+        print("Japanese Coin")
     }
     
-    func act() {
-        action()
+    var name: String
+    var value: Int
+}
+
+struct Won: Coin {
+    func makeSound() {
+        print("Korean Coin")
     }
     
-    init(power: Int, action: @escaping () -> Void) {
-        self.power = power
-        self.action = action
+    var name: String
+    var value: Int
+}
+
+struct Dollar: Coin {
+    func makeSound() {
+        print("USA Coin")
     }
+    
+    var name: String
+    var value: Int
 }
 
 struct ContentView: View {
-        
+    
+    let wallet: [any Coin] = [Yen(name: "yen", value: 300),
+                              Yen(name: "yen", value: 500),
+                              Won(name:"won", value: 3000),
+                              Won(name:"won", value: 5000),
+                              Dollar(name:"dollar", value: 3),
+                              Dollar(name:"dollar", value: 5)]
+    
     var body: some View {
         VStack {
-            Button {
-                let myBoom = Boom(power: 3, action: {})
-                myBoom.explode {
-                    print("Boooooom!")
+            ForEach(wallet, id: \.hashValue) { item in
+                HStack {
+                    Text("\(item.value) \(item.name)")
+                    Button {
+                        item.makeSound()
+                    } label: {Text("Which one?")}
                 }
-                myBoom.act()
-            } label: {
-                Text("Boom!")
             }
         }
     }
