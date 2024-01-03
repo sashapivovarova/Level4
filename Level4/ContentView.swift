@@ -40,14 +40,17 @@ struct ContentView: View {
                 let myCloth = Cloth(name: "Dress")
                 let myShirt = Shirt(size: 95, name: "Shirt")
                 
-//                let myClothToShirt = myCloth as! Shirt
-                let myShirtToCloth = myShirt as Cloth
+                if myCloth is Cloth {
+                    print("This is Cloth.")
+                } else {
+                    print("This is not Cloth")
+                }
                 
-                myCloth.sayName()
-                myShirt.sayName()
-                
-//                myClothToShirt.saySasha()
-                myShirtToCloth.sayName()
+                if myCloth is Shirt {
+                    print("This is Shirt")
+                } else {
+                    print("This is not Shirt")
+                }
                 
             } label: {
                 Text("Change")
