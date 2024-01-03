@@ -7,58 +7,50 @@
 
 import SwiftUI
 
-protocol Coin: Hashable {
-    var name: String { get }
-    var value: Int { get set }
+class Cloth {
+    let name: String
     
-    func makeSound()
-}
-
-struct Yen: Coin {
-    func makeSound() {
-        print("Japanese Coin")
+    init(name: String) {
+        self.name = name
     }
     
-    var name: String
-    var value: Int
+    func sayName() {
+        print(name)
+    }
 }
 
-struct Won: Coin {
-    func makeSound() {
-        print("Korean Coin")
+class Shirt: Cloth {
+    let size: Int
+    
+    init(size: Int, name: String) {
+        self.size = size
+        super.init(name: name)
     }
     
-    var name: String
-    var value: Int
-}
-
-struct Dollar: Coin {
-    func makeSound() {
-        print("USA Coin")
+    func saySasha() {
+        print("Sasha")
     }
-    
-    var name: String
-    var value: Int
 }
 
 struct ContentView: View {
     
-    let wallet: [any Coin] = [Yen(name: "yen", value: 300),
-                              Yen(name: "yen", value: 500),
-                              Won(name:"won", value: 3000),
-                              Won(name:"won", value: 5000),
-                              Dollar(name:"dollar", value: 3),
-                              Dollar(name:"dollar", value: 5)]
-    
     var body: some View {
         VStack {
-            ForEach(wallet, id: \.hashValue) { item in
-                HStack {
-                    Text("\(item.value) \(item.name)")
-                    Button {
-                        item.makeSound()
-                    } label: {Text("Which one?")}
-                }
+            Button {
+                let myCloth = Cloth(name: "Dress")
+                let myShirt = Shirt(size: 95, name: "Shirt")
+                
+//                let myClothToShirt = myCloth as! Shirt
+                let myShirtToCloth = myShirt as Cloth
+                
+                myCloth.sayName()
+                myShirt.sayName()
+                
+//                myClothToShirt.saySasha()
+                myShirtToCloth.sayName()
+                
+            } label: {
+                Text("Change")
             }
         }
     }
