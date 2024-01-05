@@ -9,39 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var selectedColor: Color = .black
+    
     var body: some View {
         VStack {
-            Button {
-                let number1 = 3.4
-                let number2 = 5.4
-                genericCalculator(number1, number2)
-            } label: {
-                Text("Calculator")
-            }
+            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
+                .frame(width: 320, height: 320)
+                .foregroundColor(selectedColor)
+            ColorPicker("Color Picker", selection: $selectedColor)
         }
     }
-    
-    private func genericCalculator<T> (_ first: T, _ second: T) {
-        print(first, second)
-        
-        let temp: T
-        var myFirst = first
-        var mySecond = second
-        temp = myFirst
-        myFirst = mySecond
-        mySecond = temp
-        
-        print(myFirst, mySecond)
-    }
-    
-    private func intCalculator(_ first: Int, _ second: Int) -> Int {
-        return first + second
-    }
-    
-    private func doubleCalculator(_ first: Double, _ second: Double) -> Double {
-        return first + second
-    }
-    
 }
 
 #Preview {
