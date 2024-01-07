@@ -9,21 +9,19 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var selectedColor: Color = .black
-    @State private var date = Date()
-    
     var body: some View {
         VStack {
-            RoundedRectangle(cornerSize: CGSize(width: 20, height: 20))
-                .frame(width: 320, height: 320)
-                .foregroundColor(selectedColor)
-            ColorPicker("Color Picker", selection: $selectedColor)
+            Link(destination: URL(string: "https://www.google.com")!) {
+                Label("Google", systemImage: "star")
+                    .padding()
+                    .background(.pink)
+                    .cornerRadius(13)
+            }
             
-            Text(date.formatted(date: .long, time: .shortened))
-            DatePicker("Date Picker",
-                       selection: $date,
-                       displayedComponents: [.date, .hourAndMinute])
-            .datePickerStyle(.automatic)
+            Link("Google", destination: URL(string: "https://www.google.com")!)
+                .padding()
+                .background(.pink)
+                .cornerRadius(13)
         }
     }
 }
