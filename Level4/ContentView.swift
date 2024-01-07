@@ -9,19 +9,41 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var menuColor: Color = .white
+    @State var selectedColor: String = "white"
+    
     var body: some View {
         VStack {
-            Link(destination: URL(string: "https://www.google.com")!) {
-                Label("Google", systemImage: "star")
-                    .padding()
-                    .background(.pink)
-                    .cornerRadius(13)
-            }
-            
-            Link("Google", destination: URL(string: "https://www.google.com")!)
+            Text("Color is \(selectedColor)")
                 .padding()
-                .background(.pink)
+                .background(menuColor)
                 .cornerRadius(13)
+            Menu {
+                Menu("More") {
+                    Button("Purple") {
+                        menuColor = .purple
+                        selectedColor = "purple"
+                    }
+                    Button("Orange") {
+                        menuColor = .orange
+                        selectedColor = "orange"
+                    }
+                }
+                Button("Yellow") {
+                    menuColor = .yellow
+                    selectedColor = "yellow"
+                }
+                Button("Pink") {
+                    menuColor = .pink
+                    selectedColor = "pink"
+                }
+                Button("Blue") {
+                    menuColor = .blue
+                    selectedColor = "blue"
+                }
+            } label: {
+                Label("Color Change", systemImage: "pencil")
+            }
         }
     }
 }
