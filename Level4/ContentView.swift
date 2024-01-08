@@ -8,26 +8,38 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    struct ToggleStates {
-        var oneIsOn: Bool = false
-        var twoIsOn: Bool = true
-    }
-    @State private var toggleStates = ToggleStates()
-    @State private var topExpanded: Bool = true
-
-    var body: some View {
-        DisclosureGroup("Items", isExpanded: $topExpanded) {
-            Toggle("Toggle 1", isOn: $toggleStates.oneIsOn)
-            Toggle("Toggle 2", isOn: $toggleStates.twoIsOn)
-            DisclosureGroup("Sub-items") {
-                Toggle("Toggle 1", isOn: $toggleStates.oneIsOn)
-                Toggle("Toggle 2", isOn: $toggleStates.twoIsOn)
-                DisclosureGroup("Sub-items2") {
-                    Text("Hello")
-                }
+    struct FileItem: Hashable, Identifiable, CustomStringConvertible {
+        var id: Self { self }
+        var name: String
+        var children: [FileItem]? = nil
+        var description: String {
+            switch children {
+            case nil:
+                return "📄 \(name)"
+            case .some(let children):
+                return children.isEmpty ? "📂 \(name)" : "📁 \(name)"
             }
-            .padding()
+        }
+    }
+
+    let data =
+      FileItem(name: "users", children:
+        [FileItem(name: "user1234", children:
+          [FileItem(name: "Photos", children:
+            [FileItem(name: "photo001.jpg"),
+             FileItem(name: "photo002.jpg")]),
+           FileItem(name: "Movies", children:
+             [FileItem(name: "movie001.mp4")]),
+              FileItem(name: "Documents", children: [])
+          ]),
+         FileItem(name: "newuser", children:
+           [FileItem(name: "Documents", children: [])
+           ])
+        ])
+    
+    var body: some View {
+        OutlineGroup(data, children: \.children) { item in
+            Text("\(item.description)")
         }
         .padding()
     }
