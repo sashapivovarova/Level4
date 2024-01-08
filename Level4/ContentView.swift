@@ -22,11 +22,19 @@ struct ContentView: View {
                             Circle()
                                 .foregroundColor(.red)
                                 .frame(width: 100, height: 100)
-                                .offset(x: -20, y: -20)
                         }
-                        .offset(x: 20, y: 20)
                 }
         }
+        Circle()
+            .fill(.red)
+            .frame(width: 100, height: 100)
+            .background(Circle()
+                .fill(.yellow)
+                .frame(width: 200, height: 200)
+                .background(Circle()
+                    .fill(.green)
+                    .frame(width: 300, height: 300)
+                    ))
         ZStack {
             Circle()
                 .foregroundColor(.green)
@@ -34,11 +42,11 @@ struct ContentView: View {
             Circle()
                 .foregroundColor(.yellow)
                 .frame(width: 200, height: 200)
-                .offset(x: 20, y: 20)
             Circle()
                 .foregroundColor(.red)
                 .frame(width: 100, height: 100)
         }
+        
     }
 }
 
