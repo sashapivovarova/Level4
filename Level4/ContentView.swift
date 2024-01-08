@@ -8,45 +8,29 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
     var body: some View {
-        VStack {
-            Circle()
-                .foregroundColor(.green)
-                .frame(width:300, height: 300)
-                .overlay {
-                    Circle()
-                        .foregroundColor(.yellow)
-                        .frame(width: 200, height: 200)
-                        .overlay {
-                            Circle()
-                                .foregroundColor(.red)
-                                .frame(width: 100, height: 100)
-                        }
+        ScrollViewReader { proxy in
+            Button("Scroll to 80") {
+                withAnimation {
+                    proxy.scrollTo(80, anchor: .center)
                 }
+            }
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(0..<100) { i in
+                        Text(i.description)
+                            .padding()
+                            .id(i)
+                    }
+                }
+            }
+            Button("Top") {
+                withAnimation {
+                    proxy.scrollTo(0)
+                }
+            }
         }
-        Circle()
-            .fill(.red)
-            .frame(width: 100, height: 100)
-            .background(Circle()
-                .fill(.yellow)
-                .frame(width: 200, height: 200)
-                .background(Circle()
-                    .fill(.green)
-                    .frame(width: 300, height: 300)
-                    ))
-        ZStack {
-            Circle()
-                .foregroundColor(.green)
-                .frame(width: 300, height: 300)
-            Circle()
-                .foregroundColor(.yellow)
-                .frame(width: 200, height: 200)
-            Circle()
-                .foregroundColor(.red)
-                .frame(width: 100, height: 100)
-        }
-        
     }
 }
 
