@@ -8,34 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var fruits = [
-        "Apple",
-        "Banana",
-        "Papaya",
-        "Mango"
-    ]
+    
+    struct ToggleStates {
+        var oneIsOn: Bool = false
+        var twoIsOn: Bool = true
+    }
+    @State private var toggleStates = ToggleStates()
+    @State private var topExpanded: Bool = true
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(fruits, id: \.self) { fruit in
-                    Text(fruit)
-                }
-                .onDelete { fruits.remove(atOffsets: $0) }
-                .onMove { fruits.move(fromOffsets: $0, toOffset: $1) }
-            }
-            .navigationTitle("Fruits")
-            .toolbar {
-                EditButton()
-            }
-            .toolbar {
-                ToolbarItemGroup(placement: .bottomBar) {
-                    EditButton()
-                    EditButton()
-                    EditButton()
+        DisclosureGroup("Items", isExpanded: $topExpanded) {
+            Toggle("Toggle 1", isOn: $toggleStates.oneIsOn)
+            Toggle("Toggle 2", isOn: $toggleStates.twoIsOn)
+            DisclosureGroup("Sub-items") {
+                Toggle("Toggle 1", isOn: $toggleStates.oneIsOn)
+                Toggle("Toggle 2", isOn: $toggleStates.twoIsOn)
+                DisclosureGroup("Sub-items2") {
+                    Text("Hello")
                 }
             }
+            .padding()
         }
+        .padding()
     }
 }
 
