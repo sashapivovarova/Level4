@@ -9,41 +9,35 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var menuColor: Color = .white
-    @State var selectedColor: String = "white"
-    
     var body: some View {
         VStack {
-            Text("Color is \(selectedColor)")
-                .padding()
-                .background(menuColor)
-                .cornerRadius(13)
-            Menu {
-                Menu("More") {
-                    Button("Purple") {
-                        menuColor = .purple
-                        selectedColor = "purple"
-                    }
-                    Button("Orange") {
-                        menuColor = .orange
-                        selectedColor = "orange"
-                    }
+            Circle()
+                .foregroundColor(.green)
+                .frame(width:300, height: 300)
+                .overlay {
+                    Circle()
+                        .foregroundColor(.yellow)
+                        .frame(width: 200, height: 200)
+                        .overlay {
+                            Circle()
+                                .foregroundColor(.red)
+                                .frame(width: 100, height: 100)
+                                .offset(x: -20, y: -20)
+                        }
+                        .offset(x: 20, y: 20)
                 }
-                Button("Yellow") {
-                    menuColor = .yellow
-                    selectedColor = "yellow"
-                }
-                Button("Pink") {
-                    menuColor = .pink
-                    selectedColor = "pink"
-                }
-                Button("Blue") {
-                    menuColor = .blue
-                    selectedColor = "blue"
-                }
-            } label: {
-                Label("Color Change", systemImage: "pencil")
-            }
+        }
+        ZStack {
+            Circle()
+                .foregroundColor(.green)
+                .frame(width: 300, height: 300)
+            Circle()
+                .foregroundColor(.yellow)
+                .frame(width: 200, height: 200)
+                .offset(x: 20, y: 20)
+            Circle()
+                .foregroundColor(.red)
+                .frame(width: 100, height: 100)
         }
     }
 }
