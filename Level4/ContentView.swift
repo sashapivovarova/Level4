@@ -9,35 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var current = 67.0
-    @State private var minValue = 0.0
-    @State private var maxValue = 100.0
+    var myURL = URL(string: "https://developer.apple.com/xcode/swiftui/")
     
     var body: some View {
         VStack {
-            Gauge(value: current, in: minValue...maxValue) {
-                Text("Processing...")
-            } currentValueLabel: {
-                Text("\(Int(current))")
-            } minimumValueLabel: {
-                Text("\(Int(minValue))")
-            } maximumValueLabel: {
-                Text("\(Int(maxValue))")
-            }
-            .padding()
-            .gaugeStyle(.accessoryCircularCapacity)
-            
-            HStack {
-                Button {
-                    current += 1
-                } label: {
-                    Text("Up")
-                }
-                Button {
-                    current -= 1
-                } label: {
-                    Text("Down")
-                }
+            ShareLink(item: myURL!) {
+                Label("Share", image: "MyCustomShareIcon")
             }
         }
     }
