@@ -9,33 +9,37 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let imageURLString = "https://yt3.ggpht.com/pdTrKuYp6faTiDVxyNqzYDRu23o4NojHEjx5vZjBH8kYTIyRTJDrH_uTQVRLIJ-qV0Zb6DxdGQ=s900-c-k-c0x00ffffff-no-rj"
+    @State private var current = 67.0
+    @State private var minValue = 0.0
+    @State private var maxValue = 100.0
     
     var body: some View {
         VStack {
-            Image(systemName: "bolt")
-                .data(url: URL(string: imageURLString)!)
-                .scaledToFit()
-                .frame(width: 50, height: 50)
-            
-            AsyncImage(url: URL(string: imageURLString)) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
+            Gauge(value: current, in: minValue...maxValue) {
+                Text("Processing...")
+            } currentValueLabel: {
+                Text("\(Int(current))")
+            } minimumValueLabel: {
+                Text("\(Int(minValue))")
+            } maximumValueLabel: {
+                Text("\(Int(maxValue))")
             }
-            .frame(width: 50, height: 50)
+            .padding()
+            .gaugeStyle(.accessoryCircularCapacity)
+            
+            HStack {
+                Button {
+                    current += 1
+                } label: {
+                    Text("Up")
+                }
+                Button {
+                    current -= 1
+                } label: {
+                    Text("Down")
+                }
+            }
         }
-    }
-}
-
-extension Image {
-    func data(url: URL) -> Self {
-        if let data = try? Data(contentsOf: url) {
-            return Image(uiImage: UIImage(data: data)!)
-                .resizable()
-        }
-        return self
-            .resizable()
     }
 }
 
